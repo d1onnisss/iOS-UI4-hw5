@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomTableView: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class CustomTableView: UIViewController {
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -51,9 +51,11 @@ class CustomTableView: UIViewController, UITableViewDataSource, UITableViewDeleg
                 tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
     }
-    
+}
+
+extension CustomTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        3
+        furnitures.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -63,13 +65,14 @@ class CustomTableView: UIViewController, UITableViewDataSource, UITableViewDeleg
         
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.row == 0 {
-            let vc = FurnitureController()
-            navigationController?.pushViewController(vc, animated: true)
-        }
-    }
 }
 
+extension CustomTableView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let furnitures = furnitures[indexPath.row]
+        
+        let vc = FurnitureController(furniture: furnitures)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}

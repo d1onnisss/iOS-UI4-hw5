@@ -39,7 +39,7 @@ class FurnitureController: UIViewController {
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "AbocoFur Modern Velvet Fabric Lazy Chair"
+        label.text = ""
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.textColor = .black
@@ -55,9 +55,9 @@ class FurnitureController: UIViewController {
         return image
     }()
     
-    private let amountLabel: UILabel = {
+    private var amountLabel: UILabel = {
         let label = UILabel()
-        label.text = "$230"
+        label.text = "$\(230)"
         label.textColor = .systemBlue
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -200,15 +200,33 @@ class FurnitureController: UIViewController {
         return button
     }()
 
+    let furnitureInfo: Furniture
+    
+    init(furniture: Furniture) {
+        furnitureInfo = furniture
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .white
 
         setupUI()
+        setupData()
+        
         backBtn.addTarget(self, action: #selector(backBtnTapped), for: .touchUpInside)
         minusBtn.addTarget(self, action: #selector(minusBtnTapped), for: .touchUpInside)
         plusBtn.addTarget(self, action: #selector(plusBtnTapped), for: .touchUpInside)
+    }
+    
+    private func setupData() {
+        sofaImage.image = UIImage(named: furnitureInfo.image)
+        descriptionLabel.text = furnitureInfo.name
     }
     
     @objc func backBtnTapped(_ sender: UIButton) {
@@ -219,6 +237,7 @@ class FurnitureController: UIViewController {
         if let text = counterLabel.text, let count = Int(text), count > 0 {
             let newCount = count - 1
             counterLabel.text = "\(newCount)"
+            amountLabel.text = "$\((230 * count) - 230)"
         }
     }
 
@@ -226,6 +245,7 @@ class FurnitureController: UIViewController {
         if let text = counterLabel.text, let count = Int(text) {
             let newCount = count + 1
             counterLabel.text = "\(newCount)"
+            amountLabel.text = "$\(230 + (230 * count))"
         }
     }
     

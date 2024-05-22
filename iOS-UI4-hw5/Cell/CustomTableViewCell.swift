@@ -8,6 +8,7 @@
 import UIKit
 
 class CustomTableViewCell: UITableViewCell {
+    private let height = UIScreen.main.bounds.height
     
     private let view: UIView = {
         let view = UIView()
@@ -46,7 +47,6 @@ class CustomTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupUI()
-        
     }
     
     private func setupUI() {
@@ -78,7 +78,7 @@ class CustomTableViewCell: UITableViewCell {
             furnitureImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             furnitureImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             furnitureImage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
-            furnitureImage.heightAnchor.constraint(equalToConstant: 140)
+            furnitureImage.heightAnchor.constraint(equalToConstant: height / 3)
         ])
     }
     
